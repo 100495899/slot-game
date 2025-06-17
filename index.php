@@ -1,3 +1,11 @@
+<?php
+
+//Variables desde GET
+$premio = $_GET['premio'];
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,5 +82,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="./js/main.mjs"></script>
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script>
+    var premio = '<?php echo $premio; ?>';
+  </script>
 </body>
 </html>

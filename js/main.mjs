@@ -99,9 +99,22 @@ assetLoader.onLoadFinish((assets) => {
   // --- INICIO de tu lógica de amaño ---
   function setResultForNextSpin(win) {
     // slot de 2 filas x 3 columnas
-    slot.options.fixedSymbols = [
-       null, Seven, null
-    ];
+    
+    console.log('Premio:', premio);
+    console.log(typeof(premio));
+    if (premio == '1') {
+      slot.options.fixedSymbols = [
+        null, Seven, null
+      ];
+    } else if (premio == '2') {
+      slot.options.fixedSymbols = [
+        null, BARx2, BARx3
+      ];
+    }else{
+      slot.options.fixedSymbols = [
+        null, Cherry, null
+      ];
+    }
     slot.reset();
   }
   
