@@ -104,9 +104,9 @@ export function Reel(options) {
    * @public
    * @readonly
    */
-  this.reset = () => {
+  this.reset = (valores) => {
     this.animations.removeAll();
-    this.mode.genByMode(options.mode);
+    this.mode.genByMode(options.mode, valores);
     this.drawBlocks();
     this.isSpinning = false;
   };
@@ -128,8 +128,8 @@ export function Reel(options) {
    * @readonly
    * @returns {void}
    */
-  this.spin = () => {
-    this.reset();
+  this.spin = (valores) => {
+    this.reset(valores);
     this.isSpinning = true;
   };
 }

@@ -1,4 +1,4 @@
-import { BARx1, BARx2, BARx3, Cherry, ModeRandom, Seven } from './constants.js';
+import { BARx1, BARx2, BARx3, Cherry, ModeFixed, Seven, CherryOrSeven, AllSame, AnyBar} from './constants.js';
 import { Easing } from 'https://unpkg.com/@tweenjs/tween.js@23.1.3/dist/tween.esm.js';
 import { AssetLoader } from './loader.mjs';
 import { Slot } from './slot.mjs';
@@ -70,13 +70,14 @@ assetLoader.onLoadFinish((assets) => {
     canvas: config.ui.canvas,
     buttons: config.ui.btn,
     text: config.ui.text,
-    mode: ModeRandom,
+    mode: ModeFixed,
+    fixedSymbols:  [],
     color: {
       background: '#1a1a1a',
       border: '#1f2023',
     },
     reel: {
-      rows: 2,
+      rows: 3,
       cols: 3,
       animationTime: 1500,
       animationFunction: Easing.Back.Out,
@@ -94,6 +95,26 @@ assetLoader.onLoadFinish((assets) => {
   });
 
   const engine = new Engine(slot, { FPS: 60 });
+
+  // --- INICIO de tu lógica de amaño ---
+  function setResultForNextSpin(win) {
+    // slot de 2 filas x 3 columnas
+    slot.options.fixedSymbols = [
+       null, Seven, null
+    ];
+    slot.reset();
+  }
+  
+  // 3. Sobrescribe el método subscribeSpinButton
+  slot.subscribeSpinButton = function () {
+    const options = this.options;
+    options.buttons.spinManual.onclick = () => {
+      setResultForNextSpin(true); // Pones true o false según quieras
+      console.log('Spin button clicked');
+      this.spin();
+      this.player.onWin(0);
+    };
+  };
 
   slot.updateCanvasSize();
   slot.subscribeEvents();

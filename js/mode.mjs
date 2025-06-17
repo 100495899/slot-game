@@ -1,5 +1,5 @@
 import { Tween } from 'https://unpkg.com/@tweenjs/tween.js@23.1.3/dist/tween.esm.js';
-import { IgnoreStartSymbolCount, ModeFixed } from './constants.js';
+import { BARx1, BARx2, BARx3, Cherry, IgnoreStartSymbolCount, ModeFixed, Seven } from './constants.js';
 import { createEmptyArray, hexToObject } from './utils.mjs';
 
 /**
@@ -92,9 +92,44 @@ export function Modes(reel) {
    * @private
    * @readonly
    */
-  this.getFixedSymbols = () => {
-    for (let i = 0; i <= reel.options.rows; i++) {
-      reel.blocks[IgnoreStartSymbolCount + i].symbol = reel.options.fixedSymbols[i] || this.getRandomSymbol();
+  this.getFixedSymbols = (valores) => {
+    for (let i = 0; i < reel.options.rows; i++) {
+      console.log(i);
+      console.log(valores);
+      console.log(reel.options.fixedSymbols[i]);
+
+      if (reel.options.fixedSymbols[i] === undefined) {
+        reel.blocks[IgnoreStartSymbolCount + i].symbol = this.getRandomSymbol();
+      }
+      else if (reel.options.fixedSymbols[i] === null) {
+        let simbolo = null;
+
+        if ((valores[i][0] == BARx1 || valores[i][0] == BARx2 || valores[i][0] == BARx3) && (valores[i][1] == BARx1 || valores[i][1] == BARx2 || valores[i][1] == BARx3)){
+          let eleccion = Math.floor(Math.random() * 2);
+          if (eleccion == 0){
+            simbolo = Cherry;
+            console.log("cereza: " + simbolo);
+          }
+          else{
+            simbolo = Seven;
+            console.log("seven: " + simbolo);
+          }
+        }
+        else{
+        
+          do {
+            simbolo = this.getRandomSymbol();
+            console.log("Simbolo: " + simbolo);
+            console.log("Valores: " + valores[i]);
+            
+          } while (valores[i].includes(simbolo));
+
+        }
+        reel.blocks[IgnoreStartSymbolCount + i].symbol = simbolo;
+      }
+      else{
+        reel.blocks[IgnoreStartSymbolCount + i].symbol = reel.options.fixedSymbols[i];
+      }
     }
   };
 
@@ -103,10 +138,10 @@ export function Modes(reel) {
    * @readonly
    * @param {Mode} mode
    */
-  this.genByMode = (mode) => {
+  this.genByMode = (mode, valores) => {
     this.genReelSymbols();
     if (mode === ModeFixed) {
-      this.getFixedSymbols();
+      this.getFixedSymbols(valores);
     }
   };
 }

@@ -137,7 +137,22 @@ export function Slot(options) {
 
     this.soundEffects.spin.play();
     this.player.subtractSpinCost();
-    this.reels.forEach((reel) => reel.spin());
+
+    const valores = [];
+    for (let i = 0; i < options.reel.rows; i++) {
+      valores.push([]);
+    }
+    console.log(valores);
+
+    this.reels.forEach((reel) => {
+      reel.spin(valores);
+      
+      for (let i = 0; i < options.reel.rows; i++) {
+        valores[i].push(reel.blocks[i + 3].symbol);
+        console.log(valores);
+      }
+
+  });
 
     waitFor(options.reel.animationTime)
       .then(this.evaluateWin)
@@ -227,7 +242,7 @@ export function Slot(options) {
       );
     });
 
-    this.reels.forEach((reel) => reel.reset());
+    this.reels.forEach((reel) => reel.reset([[],[],[]]));
     this.updateCanvasSize();
   };
 
