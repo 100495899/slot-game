@@ -3,7 +3,7 @@ import { Easing } from 'https://unpkg.com/@tweenjs/tween.js@23.1.3/dist/tween.es
 import { AssetLoader } from './loader.mjs';
 import { Slot } from './slot.mjs';
 import { Engine } from './engine.mjs';
-import { configureTweakPane } from './gui.mjs';
+//import { configureTweakPane } from './gui.mjs';
 import { payTable } from './payTable.mjs';
 import { createPayTable } from './utils.mjs';
 
@@ -58,7 +58,7 @@ assetLoader.onLoadFinish((assets) => {
 
   const slot = new Slot({
     player: {
-      credits: 64,
+      credits: tiradas,
       bet: 1,
       MAX_BET: 15,
     },
@@ -97,11 +97,11 @@ assetLoader.onLoadFinish((assets) => {
   const engine = new Engine(slot, { FPS: 60 });
 
   // --- INICIO de tu lógica de amaño ---
-  function setResultForNextSpin(win) {
-    // slot de 2 filas x 3 columnas
-    
-    console.log('Premio:', premio);
-    console.log(typeof(premio));
+  function setResultForNextSpin() {
+
+    if (!slot.player.hasEnoughCredits()) return;
+    if (slot.isSpinning || slot.checking) return;
+
     if (premio == '1') {
       slot.options.fixedSymbols = [
         null, Seven, null
@@ -112,9 +112,10 @@ assetLoader.onLoadFinish((assets) => {
       ];
     }else{
       slot.options.fixedSymbols = [
-        null, Cherry, null
+        null, null, null
       ];
     }
+
     slot.reset();
   }
   
@@ -122,7 +123,7 @@ assetLoader.onLoadFinish((assets) => {
   slot.subscribeSpinButton = function () {
     const options = this.options;
     options.buttons.spinManual.onclick = () => {
-      setResultForNextSpin(true); // Pones true o false según quieras
+      setResultForNextSpin(); // Pones true o false según quieras
       console.log('Spin button clicked');
       this.spin();
       this.player.onWin(0);

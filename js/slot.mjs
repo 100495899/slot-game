@@ -202,7 +202,7 @@ export function Slot(options) {
       console.info(`Winner: ${winner.type}, line: ${winner.rowIndex}, win: $${winner.money}`);
     }
 
-    this.player.addWin(totalWin);
+    //this.player.addWin(totalWin);
 
     console.info(`Total win: $${totalWin}`);
     console.groupEnd();

@@ -2,6 +2,7 @@
 
 //Variables desde GET
 $premio = $_GET['premio'];
+$tiradas = $_GET['tiradas'];
 
 ?>
 
@@ -20,14 +21,9 @@ $premio = $_GET['premio'];
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Permanent+Marker&family=Roboto:ital,wght@1,300&display=swap" />
 </head>
 <body>
-  <div>
-    <a class="github-button" href="https://github.com/n1md7" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-size="large" data-show-count="true" aria-label="Follow @n1md7 on GitHub">Follow @n1md7</a>
-    <a class="github-button" href="https://github.com/n1md7/slot-game" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star n1md7/slot-game on GitHub">Star</a>
-    <a class="github-button" href="https://github.com/n1md7/slot-game/fork" data-color-scheme="no-preference: dark; light: dark; dark: dark;" data-icon="octicon-repo-forked" data-size="large" data-show-count="true" aria-label="Fork n1md7/slot-game on GitHub">Fork</a>
-  </div>
   <div class="game-container">
     <!-- Winner Display -->
-    <div class="winner-display mb-3">
+    <div class="winner-display mb-3 d-none">
       <span>WIN: <span id="win-amount">$</span></span>
     </div>
 
@@ -36,23 +32,23 @@ $premio = $_GET['premio'];
 
     <!-- Button Controls -->
     <div class="controls d-flex align-items-end px-1 mt-3">
-      <div class="text-warning left d-flex flex-column align-items-start justify-content-between h-100">
+      <div class="text-warning left d-flex flex-column align-items-start justify-content-between h-100 d-none">
         <span>Credit: <span id="credits" class="credit text-white">$400</span></span>
         <span>Bet: <span id="bet" class="bet text-white">$10</span></span>
       </div>
       <div class="mx-4 middle d-flex align-items-end justify-content-between">
-        <button id="minus-bet" class="bet-action-btn">
+        <button id="minus-bet" class="bet-action-btn d-none">
           <i class="fas fa-minus"></i>
         </button>
         <button class="align-items-center d-flex gap-2" id="spin-manual">
           <i class="fas fa-sync-alt"></i>
           <b>SPIN</b>
         </button>
-        <button id="plus-bet" class="bet-action-btn">
+        <button id="plus-bet" class="bet-action-btn d-none">
           <i class="fas fa-plus"></i>
         </button>
       </div>
-      <div class="right d-flex flex-column align-items-end justify-content-between gap-1">
+      <div class="right d-flex flex-column align-items-end justify-content-between gap-1 d-none">
         <button class="align-items-center d-flex gap-1" id="pay-table" data-bs-toggle="modal" data-bs-target="#pay-table-modal">
           <i class="fas fa-table"></i>
           <b>Pay Table</b>
@@ -84,6 +80,7 @@ $premio = $_GET['premio'];
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <script>
     var premio = '<?php echo $premio; ?>';
+    var tiradas = '<?php echo $tiradas; ?>';
   </script>
 </body>
 </html>
