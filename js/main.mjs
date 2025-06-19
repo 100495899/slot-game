@@ -104,11 +104,31 @@ assetLoader.onLoadFinish((assets) => {
 
     if (premio == '1') {
       slot.options.fixedSymbols = [
-        null, Seven, null
+        null, BARx1, null
       ];
     } else if (premio == '2') {
       slot.options.fixedSymbols = [
-        null, BARx2, BARx3
+        null, BARx2, null
+      ];
+    }  else if (premio == '3') {
+      slot.options.fixedSymbols = [
+        null, BARx3, null
+      ];
+    } else if (premio == '4') {
+      slot.options.fixedSymbols = [
+        null, AnyBar, null
+      ];
+    } else if (premio == '5') {
+      slot.options.fixedSymbols = [
+        null, Seven, null
+      ];
+    } else if (premio == '6') {
+      slot.options.fixedSymbols = [
+        null, Cherry, null
+      ];
+    } else if (premio == '7') {
+      slot.options.fixedSymbols = [
+        null, CherryOrSeven, null
       ];
     }else{
       slot.options.fixedSymbols = [
