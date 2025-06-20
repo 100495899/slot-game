@@ -302,11 +302,12 @@ export function Slot(options) {
    */
   this.subscribePlayerEvents = () => {
     this.player.onUpdate = (credits, bet) => {
-      options.text.credits.textContent = `$${credits}`;
-      options.text.bet.textContent = `$${bet}`;
+      options.text.credits.textContent = `${credits}`;
+      options.text.bet.textContent = `${bet}`;
     };
     this.player.onWin = (amount) => {
-      options.text.winAmount.textContent = `$${amount}`;
+      options.text.winAmount.classList.remove('d-none');
+      options.text.winAmount.textContent = 'Ganador!!';
     };
   };
 

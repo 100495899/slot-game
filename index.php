@@ -1,8 +1,10 @@
 <?php
 
 //Variables desde GET
-$premio = $_GET['premio'];
-$tiradas = $_GET['tiradas'];
+$tiradas = $_GET['runs'];
+$id = $_GET['id'];
+
+
 
 ?>
 
@@ -32,9 +34,9 @@ $tiradas = $_GET['tiradas'];
 
     <!-- Button Controls -->
     <div class="controls d-flex align-items-end px-1 mt-3">
-      <div class="text-warning left d-flex flex-column align-items-start justify-content-between h-100 d-none">
-        <span>Credit: <span id="credits" class="credit text-white">$400</span></span>
-        <span>Bet: <span id="bet" class="bet text-white">$10</span></span>
+      <div class="text-warning left d-flex flex-column align-items-start justify-content-between h-100">
+        <span>Triradas: <span id="credits" class="credit text-white"></span></span>
+        <span class="d-none">Bet: <span id="bet" class="bet text-white">$10</span></span>
       </div>
       <div class="mx-4 middle d-flex align-items-end justify-content-between">
         <button id="minus-bet" class="bet-action-btn d-none">
@@ -79,8 +81,8 @@ $tiradas = $_GET['tiradas'];
   <script type="module" src="./js/main.mjs"></script>
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <script>
-    var premio = '<?php echo $premio; ?>';
     var tiradas = '<?php echo $tiradas; ?>';
+    var id = '<?php echo $id; ?>';
   </script>
 </body>
 </html>

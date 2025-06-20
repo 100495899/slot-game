@@ -97,38 +97,61 @@ assetLoader.onLoadFinish((assets) => {
   const engine = new Engine(slot, { FPS: 60 });
 
   // --- INICIO de tu lógica de amaño ---
-  function setResultForNextSpin() {
+  async function api_login() {
+    try {
+      const response = await fetch('api_proxy.php?action=api_login', { method: 'POST' });
+      if (!response.ok) throw new Error('Error en proxy');
+      const token = await response.text(); // o .json() según respuesta
+      console.log(token);
+      return token;
+    } catch (error) {
+      console.error('Error en login:', error);
+      return null;
+    }
+
+  }
+
+
+    async function momento_ganador(valor) {
+    try {
+      console.log('Llamando a momento_ganador con token:', valor);
+      const response = await fetch(`api_proxy.php?action=momento_ganador&token=${valor}&name=${id}`, { method: 'POST' });
+      if (!response.ok) throw new Error('Error en proxy');
+      const resultado = await response.text(); // o .json() según respuesta
+      console.log(resultado);
+      return resultado;
+    } catch (error) {
+      console.error('Error en obtener_momento_ganador:', error);
+      return null;
+    }
+
+  }
+
+
+  function setResultForNextSpin(premio) {
 
     if (!slot.player.hasEnoughCredits()) return;
     if (slot.isSpinning || slot.checking) return;
 
-    if (premio == '1') {
+    if (premio == 'Premio 1') {
       slot.options.fixedSymbols = [
         null, BARx1, null
       ];
-    } else if (premio == '2') {
+    } else if (premio == 'Premio 2') {
       slot.options.fixedSymbols = [
         null, BARx2, null
       ];
-    }  else if (premio == '3') {
+    }  else if (premio == 'Premio 3') {
       slot.options.fixedSymbols = [
         null, BARx3, null
       ];
-    } else if (premio == '4') {
-      slot.options.fixedSymbols = [
-        null, AnyBar, null
-      ];
-    } else if (premio == '5') {
+    } else if (premio == 'Premio 4') {
       slot.options.fixedSymbols = [
         null, Seven, null
       ];
-    } else if (premio == '6') {
+    } else if (premio == 'Premio 5') {
       slot.options.fixedSymbols = [
         null, Cherry, null
-      ];
-    } else if (premio == '7') {
-      slot.options.fixedSymbols = [
-        null, CherryOrSeven, null
       ];
     }else{
       slot.options.fixedSymbols = [
@@ -138,15 +161,37 @@ assetLoader.onLoadFinish((assets) => {
 
     slot.reset();
   }
+
+  let value = null;
+  var token = api_login();
+  token.then((valor) => {
+      console.log('Token obtenido:', valor);
+      value = valor;
+    });
+
+
   
   // 3. Sobrescribe el método subscribeSpinButton
   slot.subscribeSpinButton = function () {
+    
+
+
     const options = this.options;
     options.buttons.spinManual.onclick = () => {
-      setResultForNextSpin(); // Pones true o false según quieras
-      console.log('Spin button clicked');
-      this.spin();
-      this.player.onWin(0);
+      if (!this.player.hasEnoughCredits()) return;
+      let resultado = momento_ganador(value);
+      resultado.then((result) => {
+        let premioObj = JSON.parse(result);
+        const premio = premioObj.prize && typeof premioObj.prize === 'object'
+          ? premioObj.prize.prize
+          : null;
+
+        setResultForNextSpin(premio);
+        console.log('Spin button clicked');
+        this.spin();
+        this.player.onWin(0);
+      });
+
     };
   };
 
@@ -155,7 +200,7 @@ assetLoader.onLoadFinish((assets) => {
 
   engine.start();
 
-  configureTweakPane(slot, engine);
+  //configureTweakPane(slot, engine);
   createPayTable(symbols, payTable, config.ui.modalBody);
 });
 
