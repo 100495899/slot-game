@@ -25,8 +25,8 @@ $id = $_GET['id'];
 <body>
   <div class="game-container">
     <!-- Winner Display -->
-    <div class="winner-display mb-3 d-none">
-      <span>WIN: <span id="win-amount">$</span></span>
+    <div class="winner-display mb-3">
+      <span id="win-amount" class="d-none text-primary">$</span>
     </div>
 
     <!-- Canvas Placeholder -->
@@ -35,7 +35,7 @@ $id = $_GET['id'];
     <!-- Button Controls -->
     <div class="controls d-flex align-items-end px-1 mt-3">
       <div class="text-warning left d-flex flex-column align-items-start justify-content-between h-100">
-        <span>Triradas: <span id="credits" class="credit text-white"></span></span>
+        <span class="text-primary">Tiradas: <span id="credits" class="credit"></span></span>
         <span class="d-none">Bet: <span id="bet" class="bet text-white">$10</span></span>
       </div>
       <div class="mx-4 middle d-flex align-items-end justify-content-between">

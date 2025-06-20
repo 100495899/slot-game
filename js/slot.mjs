@@ -202,7 +202,7 @@ export function Slot(options) {
       console.info(`Winner: ${winner.type}, line: ${winner.rowIndex}, win: $${winner.money}`);
     }
 
-    //this.player.addWin(totalWin);
+    this.player.addWin(totalWin);
 
     console.info(`Total win: $${totalWin}`);
     console.groupEnd();
@@ -306,8 +306,17 @@ export function Slot(options) {
       options.text.bet.textContent = `${bet}`;
     };
     this.player.onWin = (amount) => {
-      options.text.winAmount.classList.remove('d-none');
-      options.text.winAmount.textContent = 'Ganador!!';
+      let ganancia = document.getElementById('win-amount');
+      if ( amount === 0 ) {
+        ganancia.classList.add('d-none');
+        options.text.winAmount.textContent = 'No hay ganador';
+        console.log('No hay ganador');
+      }
+      else{
+        ganancia.classList.remove('d-none');
+        options.text.winAmount.textContent = 'Ganador!!';
+        console.log(`Ganador slot: ${amount}`);
+      }
     };
   };
 

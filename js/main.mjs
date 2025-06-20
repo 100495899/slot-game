@@ -35,11 +35,11 @@ const config = {
 };
 
 const assetLoader = new AssetLoader([
-  './img/1xBAR.png',
-  './img/2xBAR.png',
-  './img/3xBAR.png',
-  './img/Seven.png',
-  './img/Cherry.png',
+  './img/FIAT-PEUGOT.png',
+  './img/PSA.png',
+  './img/FCA.png',
+  './img/BLANCO.png',
+  './img/AZUL.png',
 ]);
 
 assetLoader.onLoadFinish((assets) => {
@@ -49,11 +49,11 @@ assetLoader.onLoadFinish((assets) => {
    * @type {ReelSymbols}
    */
   const symbols = {
-    [BARx1]: assets.find(({ name }) => name === BARx1).img,
-    [BARx2]: assets.find(({ name }) => name === BARx2).img,
-    [BARx3]: assets.find(({ name }) => name === BARx3).img,
-    [Seven]: assets.find(({ name }) => name === Seven).img,
-    [Cherry]: assets.find(({ name }) => name === Cherry).img,
+    [BARx1]: assets.find(({ name }) => name === 'FIAT-PEUGOT').img,
+    [BARx2]: assets.find(({ name }) => name === 'PSA').img,
+    [BARx3]: assets.find(({ name }) => name === 'FCA').img,
+    [Seven]: assets.find(({ name }) => name === 'BLANCO').img,
+    [Cherry]: assets.find(({ name }) => name ===  'AZUL').img,
   };
 
   const slot = new Slot({
@@ -173,9 +173,6 @@ assetLoader.onLoadFinish((assets) => {
   
   // 3. Sobrescribe el método subscribeSpinButton
   slot.subscribeSpinButton = function () {
-    
-
-
     const options = this.options;
     options.buttons.spinManual.onclick = () => {
       if (!this.player.hasEnoughCredits()) return;
@@ -189,6 +186,8 @@ assetLoader.onLoadFinish((assets) => {
         setResultForNextSpin(premio);
         console.log('Spin button clicked');
         this.spin();
+        console.log(`Premio obtenido`);
+        
         this.player.onWin(0);
       });
 

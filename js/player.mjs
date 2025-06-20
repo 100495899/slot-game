@@ -45,7 +45,7 @@ export function Player(options) {
    */
   this.addWin = (win) => {
     win *= this.bet.get();
-    this.credits.add(win);
+    //this.credits.add(win);
     this.onWin(win);
     this.onUpdate(this.credits.get(), this.bet.get());
   };
