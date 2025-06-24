@@ -1,13 +1,7 @@
 <?php
-
-//Variables desde GET
 $tiradas = $_GET['runs'];
 $id = $_GET['id'];
-
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,71 +9,80 @@ $id = $_GET['id'];
   <title>Slot Machine</title>
   <meta charset="utf-8" />
   <meta name="theme-color" content="#000000" />
-  <meta name="viewport" content="width=480,initial-scale=1, maximum-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <link rel="icon" href="./img/Cherry.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
   <link rel="stylesheet" type="text/css" href="./css/style.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Permanent+Marker&family=Roboto:ital,wght@1,300&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="game-container">
-    <!-- Winner Display -->
-    <div class="winner-display mb-3">
-      <span id="win-amount" class="d-none text-primary">$</span>
+  <div class="slot-machine-wrapper">
+    <div class="screen">
+      <canvas id="slot" width="440" height="240"></canvas>
+      <div class="winner-display" id="win-container">
+        <span id="win-amount" class="d-none">$</span>
+      </div>
     </div>
 
-    <!-- Canvas Placeholder -->
-    <canvas id="slot" width="440" height="240"></canvas>
-
-    <!-- Button Controls -->
-    <div class="controls d-flex align-items-end px-1 mt-3">
-      <div class="text-warning left d-flex flex-column align-items-start justify-content-between h-100">
-        <span class="text-primary">Tiradas: <span id="credits" class="credit"></span></span>
-        <span class="d-none">Bet: <span id="bet" class="bet text-white">$10</span></span>
+    <div class="panel-controls">
+      <div class="status-panel d-flex justify-content-between align-items-center">
+        <div class="credits">
+          <span>Tiradas:</span>
+          <span id="credits" class="credit text-primary">0</span>
+        </div>
+        <div class="bet d-none">
+          <span>Apuesta:</span>
+          <span id="bet" class="bet text-white">10</span>
+        </div>
       </div>
-      <div class="mx-4 middle d-flex align-items-end justify-content-between">
+
+      <div class="buttons-row mt-3">
         <button id="minus-bet" class="bet-action-btn d-none">
           <i class="fas fa-minus"></i>
         </button>
-        <button class="align-items-center d-flex gap-2" id="spin-manual">
+
+        <button id="spin-manual" class="main-btn">
           <i class="fas fa-sync-alt"></i>
-          <b>SPIN</b>
+          <strong>PROBAR SUERTE</strong>
         </button>
+
         <button id="plus-bet" class="bet-action-btn d-none">
           <i class="fas fa-plus"></i>
         </button>
       </div>
-      <div class="right d-flex flex-column align-items-end justify-content-between gap-1 d-none">
-        <button class="align-items-center d-flex gap-1" id="pay-table" data-bs-toggle="modal" data-bs-target="#pay-table-modal">
-          <i class="fas fa-table"></i>
-          <b>Pay Table</b>
+
+      <div class="extra-buttons mt-3">
+        <button id="pay-table" data-bs-toggle="modal" data-bs-target="#pay-table-modal">
+          <i class="fas fa-table"></i> Tabla de Pagos
         </button>
-        <button class="align-items-center control-btn d-flex gap-1" id="spin-auto">
-          <i class="fas fa-play"></i>
-          <b>AUTO | OFF</b>
+
+        <button id="spin-auto">
+          <i class="fas fa-play"></i> Auto | STOP
         </button>
       </div>
     </div>
   </div>
 
-  <div class="modal fade modal-fullscreen-sm-down modal-lg" id="pay-table-modal">
-    <div class="modal-dialog modal-dialog-centered">
+  <!-- Modal -->
+  <div class="modal fade" id="pay-table-modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Pay Table</h5>
+          <h5 class="modal-title">Tabla de Pagos</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-
+          <!-- Aquí va el contenido generado por JS -->
         </div>
       </div>
     </div>
   </div>
-  <script src="https://unpkg.com/@n1md7/html-table-builder@1.0.1/dist/table_builder.min.js"></script>
+
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/@n1md7/html-table-builder@1.0.1/dist/table_builder.min.js"></script>
   <script type="module" src="./js/main.mjs"></script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
   <script>
     var tiradas = '<?php echo $tiradas; ?>';
     var id = '<?php echo $id; ?>';

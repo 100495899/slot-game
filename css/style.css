@@ -1,139 +1,153 @@
-:root {
-  --btn-bg: #313030;
-  --btn-color: white;
-  --btn-border: solid 4px white;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 * {
   box-sizing: border-box;
-  font-family: 'Black Ops One', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
-
 
 body {
-  width: 100vw;
+  background: radial-gradient(circle at center, #0d3869, #001934);
+  margin: 0;
+  padding: 0;
   height: 100vh;
-  backdrop-filter: blur(6px);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-}
-
-.gold {
-  color: gold !important;
-}
-
-.green {
-  color: green;
-}
-
-div.modal-footer,
-div.modal-body,
-div.modal-header {
-  background-color: #000000de;
   color: white;
-}
-
-.lil-gui {
-  --background-color: #000000A0;
-  --text-color: white;
-  --title-background-color: #000000D3;
-  --title-text-color: white;
-}
-
-.lil-gui.autoPlace {
-  right: 0;
-}
-
-.game-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
   justify-content: center;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  position: fixed;
-  z-index: -1;
+}
+
+.slot-machine-wrapper {
+    background-color: #65a5eb;
+    border: 3px solid #1679e6;
+    background-image: url("https://www.media.stellantis.com/build/images/splash-background.jpg");
+    background-position: center;
+    background-size: contain;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+}
+
+.screen {
+    position: relative;
+   border: 4px solid #0054b2;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff!important;
+}
+
+#winner-display, #win-container {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: gold;
+    z-index: 9999;
+    background: #04356beb;
 }
 
 #slot {
-  border: 4px solid #343a40;
-  max-width: 100%;
+  width: 100%;
   height: auto;
-  box-sizing: content-box;
-  border-radius: 40px;
+  display: block;
 }
 
-.winner-display {
-  color: #FFD700;
-  font-size: 28px;
-  border-radius: 20px;
-  border: 0;
-  font-weight: bold;
-  overflow: hidden;
-  padding: 8px 16px;
+.panel-controls {
+  margin-top: 24px;
 }
 
-#spin-manual {
-  background-color: #35a2e1;
-  color: rgb(179, 245, 245);
-  border: 4px solid #2c32ea;
-  border-radius: 40px;
-  padding: 16px;
-  font-size: 24px;
-  cursor: pointer;
-  justify-content: center;
-  text-align: center;
-  flex: 1;
+.status-panel span {
+  font-size: 16px;
+}
+
+.buttons-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 .bet-action-btn {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  border: solid 4px #343a40;
-  background-color: var(--btn-bg);
+  border: 3px solid #888;
+  background-color: #2c2c2c;
   color: wheat;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#spin-auto, #pay-table {
-  background-color: var(--btn-bg);
-  color: wheat;
-  border: 4px solid #343a40;
-  border-radius: 40px;
-  padding: 4px 8px;
-  font-size: 13px;
-  cursor: pointer;
+.main-btn {
+    flex: 1;
+    border: none;
+    background: linear-gradient(145deg, #27bc50, #0d6927);
+    color: white;
+    font-size: 20px;
+    padding: 12px 24px;
+    border-radius: 40px;
+    font-weight: 600;
+    box-shadow: 0 6px 12px rgb(2 30 61 / 32%);
+    transition: 0.2s ease-in-out;
+    border: 2px solid #48d971;
 }
 
-.controls .left {
-  font-size: 20px;
+.main-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 123, 255, 0.7);
 }
 
-.controls .middle {
-  width: 250px;
+.extra-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-button:hover {
-  opacity: 0.8 !important;
-  box-shadow: 0 0 10px 0 #000000;
+.extra-buttons button {
+  flex: 1;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: linear-gradient(145deg, #27bc50, #0d6927);
+  color: white;
+  transition: 0.2s ease;
+  border: 2px solid #48d971;
 }
 
-button:active {
-  background-color: #afaeae !important;
+.extra-buttons button:hover {
+  background-color: #333;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
 }
-
-#pay-table-modal {
-  position: fixed;
-  margin: auto;
-  left: 0;
-  right: 0;
+span#credits {
+    background: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 70px;
+    display: block;
+    font-weight: 600;
+    color: #052548 !important;
 }
-
-table tr td {
-  text-align: center;
-  vertical-align: middle;
+.modal-content {
+    background-color: #ffffff;
+    color: white;
+    border-radius: 16px;
+}
+.modal-title {
+    margin-bottom: 0;
+    line-height: var(--bs-modal-title-line-height);
+    color: black;
+}
+.credits {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.extra-buttons.mt-3 {
+    display: none;
 }

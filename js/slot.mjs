@@ -4,7 +4,6 @@ import { Calculator } from './calculator.mjs';
 import { VisualEffects } from './visual-effects.mjs';
 import { Player } from './player.mjs';
 import { SoundEffects } from './sound-effects.mjs';
-import { BackgroundMusic } from './background-music.mjs';
 
 /**
  * import { ReelOptions, ReelSymbols, ColorOptions, BlockOptions, PaddingOptions, Mode, SlotOptions } from './types.mjs';
@@ -39,12 +38,6 @@ export function Slot(options) {
    */
   this.soundEffects = new SoundEffects({ animationTime: options.reel.animationTime });
 
-  /**
-   * @public
-   * @readonly
-   * @type {BackgroundMusic}
-   */
-  this.backgroundMusic = new BackgroundMusic();
 
   /**
    * @private
@@ -142,14 +135,12 @@ export function Slot(options) {
     for (let i = 0; i < options.reel.rows; i++) {
       valores.push([]);
     }
-    console.log(valores);
 
     this.reels.forEach((reel) => {
       reel.spin(valores);
       
       for (let i = 0; i < options.reel.rows; i++) {
         valores[i].push(reel.blocks[i + 3].symbol);
-        console.log(valores);
       }
 
   });
@@ -310,12 +301,10 @@ export function Slot(options) {
       if ( amount === 0 ) {
         ganancia.classList.add('d-none');
         options.text.winAmount.textContent = 'No hay ganador';
-        console.log('No hay ganador');
       }
       else{
         ganancia.classList.remove('d-none');
         options.text.winAmount.textContent = 'Ganador!!';
-        console.log(`Ganador slot: ${amount}`);
       }
     };
   };
@@ -328,7 +317,7 @@ export function Slot(options) {
    * It is required since the browser blocks autoplaying audio on page load.
    */
   this.subscribeBodyClick = () => {
-    document.body.onclick = () => this.backgroundMusic.playOnce();
+  
   };
 
   /**

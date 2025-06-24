@@ -94,9 +94,6 @@ export function Modes(reel) {
    */
   this.getFixedSymbols = (valores) => {
     for (let i = 0; i < reel.options.rows; i++) {
-      console.log(i);
-      console.log(valores);
-      console.log(reel.options.fixedSymbols[i]);
 
       if (reel.options.fixedSymbols[i] === undefined) {
         reel.blocks[IgnoreStartSymbolCount + i].symbol = this.getRandomSymbol();
@@ -108,20 +105,16 @@ export function Modes(reel) {
           let eleccion = Math.floor(Math.random() * 2);
           if (eleccion == 0){
             simbolo = Cherry;
-            console.log("cereza: " + simbolo);
           }
           else{
             simbolo = Seven;
-            console.log("seven: " + simbolo);
           }
         }
         else{
         
           do {
             simbolo = this.getRandomSymbol();
-            console.log("Simbolo: " + simbolo);
-            console.log("Valores: " + valores[i]);
-            
+
           } while (valores[i].includes(simbolo));
 
         }

@@ -1,23 +1,16 @@
-import { BARx1, BARx2, BARx3, Cherry, ModeFixed, Seven, CherryOrSeven, AllSame, AnyBar} from './constants.js';
+import { BARx1, BARx2, BARx3, Cherry, ModeFixed, Seven, CherryOrSeven, AllSame, AnyBar } from './constants.js';
 import { Easing } from 'https://unpkg.com/@tweenjs/tween.js@23.1.3/dist/tween.esm.js';
 import { AssetLoader } from './loader.mjs';
 import { Slot } from './slot.mjs';
 import { Engine } from './engine.mjs';
-//import { configureTweakPane } from './gui.mjs';
+// import { configureTweakPane } from './gui.mjs';
 import { payTable } from './payTable.mjs';
 import { createPayTable } from './utils.mjs';
-
-/**
- * @import {ReelSymbols} from './reel.mjs';
- */
 
 const config = {
   assets: [],
   symbols: [],
   ui: {
-    /**
-     * @type {HTMLCanvasElement}
-     */
     canvas: document.querySelector('#slot'),
     btn: {
       spinManual: document.querySelector('#spin-manual'),
@@ -30,7 +23,7 @@ const config = {
       bet: document.querySelector('#bet'),
       winAmount: document.querySelector('#win-amount'),
     },
-    modalBody: document.querySelector(`#pay-table-modal .modal-body`),
+    modalBody: document.querySelector('#pay-table-modal .modal-body'),
   },
 };
 
@@ -45,15 +38,12 @@ const assetLoader = new AssetLoader([
 assetLoader.onLoadFinish((assets) => {
   console.info('All assets loaded', assets);
 
-  /**
-   * @type {ReelSymbols}
-   */
   const symbols = {
     [BARx1]: assets.find(({ name }) => name === 'FIAT-PEUGOT').img,
     [BARx2]: assets.find(({ name }) => name === 'PSA').img,
     [BARx3]: assets.find(({ name }) => name === 'FCA').img,
     [Seven]: assets.find(({ name }) => name === 'BLANCO').img,
-    [Cherry]: assets.find(({ name }) => name ===  'AZUL').img,
+    [Cherry]: assets.find(({ name }) => name === 'AZUL').img,
   };
 
   const slot = new Slot({
@@ -71,10 +61,10 @@ assetLoader.onLoadFinish((assets) => {
     buttons: config.ui.btn,
     text: config.ui.text,
     mode: ModeFixed,
-    fixedSymbols:  [],
+    fixedSymbols: [],
     color: {
-      background: '#1a1a1a',
-      border: '#1f2023',
+      background: '#ffffff', // fondo blanco real
+      border: '#0075f6',
     },
     reel: {
       rows: 3,
@@ -96,110 +86,96 @@ assetLoader.onLoadFinish((assets) => {
 
   const engine = new Engine(slot, { FPS: 60 });
 
-  // --- INICIO de tu lógica de amaño ---
+  // -- AUTENTICACIÓN API --
   async function api_login() {
     try {
       const response = await fetch('api_proxy.php?action=api_login', { method: 'POST' });
       if (!response.ok) throw new Error('Error en proxy');
-      const token = await response.text(); // o .json() según respuesta
-      console.log(token);
-      return token;
+      return await response.text();
     } catch (error) {
       console.error('Error en login:', error);
       return null;
     }
-
   }
 
-
-    async function momento_ganador(valor) {
+  async function momento_ganador(token) {
     try {
-      console.log('Llamando a momento_ganador con token:', valor);
-      const response = await fetch(`api_proxy.php?action=momento_ganador&token=${valor}&name=${id}`, { method: 'POST' });
+      const response = await fetch(`api_proxy.php?action=momento_ganador&token=${token}&name=${id}`, { method: 'POST' });
       if (!response.ok) throw new Error('Error en proxy');
-      const resultado = await response.text(); // o .json() según respuesta
-      console.log(resultado);
-      return resultado;
+      return await response.text();
     } catch (error) {
-      console.error('Error en obtener_momento_ganador:', error);
+      console.error('Error en obtener momento ganador:', error);
       return null;
     }
-
   }
 
-
   function setResultForNextSpin(premio) {
-
     if (!slot.player.hasEnoughCredits()) return;
     if (slot.isSpinning || slot.checking) return;
 
-    if (premio == 'Premio 1') {
-      slot.options.fixedSymbols = [
-        null, BARx1, null
-      ];
-    } else if (premio == 'Premio 2') {
-      slot.options.fixedSymbols = [
-        null, BARx2, null
-      ];
-    }  else if (premio == 'Premio 3') {
-      slot.options.fixedSymbols = [
-        null, BARx3, null
-      ];
-    } else if (premio == 'Premio 4') {
-      slot.options.fixedSymbols = [
-        null, Seven, null
-      ];
-    } else if (premio == 'Premio 5') {
-      slot.options.fixedSymbols = [
-        null, Cherry, null
-      ];
-    }else{
-      slot.options.fixedSymbols = [
-        null, null, null
-      ];
-    }
+    const mapping = {
+      'Premio 1': [null, BARx1, null],
+      'Premio 2': [null, BARx2, null],
+      'Premio 3': [null, BARx3, null],
+      'Premio 4': [null, Seven, null],
+      'Premio 5': [null, Cherry, null],
+    };
 
+    slot.options.fixedSymbols = mapping[premio] || [null, null, null];
     slot.reset();
   }
 
   let value = null;
-  var token = api_login();
-  token.then((valor) => {
-      console.log('Token obtenido:', valor);
-      value = valor;
-    });
+  api_login().then((token) => {
+    value = token;
+  });
 
+  let momento = false;
 
-  
-  // 3. Sobrescribe el método subscribeSpinButton
   slot.subscribeSpinButton = function () {
     const options = this.options;
     options.buttons.spinManual.onclick = () => {
-      if (!this.player.hasEnoughCredits()) return;
-      let resultado = momento_ganador(value);
-      resultado.then((result) => {
+      if (!this.player.hasEnoughCredits() || momento) return;
+
+      momento = true;
+      momento_ganador(value).then((result) => {
         let premioObj = JSON.parse(result);
-        const premio = premioObj.prize && typeof premioObj.prize === 'object'
-          ? premioObj.prize.prize
-          : null;
+        const premio = premioObj.prize?.prize ?? null;
 
         setResultForNextSpin(premio);
-        console.log('Spin button clicked');
         this.spin();
-        console.log(`Premio obtenido`);
-        
+        momento = false;
+
+        if (premio !== null) {
+          const formData = new FormData();
+          formData.append('module', 'promos');
+          formData.append('reference_id', '1');
+          formData.append('id', id);
+          formData.append('premio', premio);
+          formData.append('token', value);
+
+          fetch('api_proxy.php?action=guardar_premio', {
+            method: 'POST',
+            body: formData
+          }).catch(error => console.error('Error guardando premio:', error));
+        }
+
         this.player.onWin(0);
       });
-
     };
   };
 
   slot.updateCanvasSize();
-  slot.subscribeEvents();
 
+  // ✅ Limpia el canvas con fondo blanco al inicio
+  const ctx = config.ui.canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, config.ui.canvas.width, config.ui.canvas.height);
+
+  slot.subscribeEvents();
   engine.start();
 
-  //configureTweakPane(slot, engine);
+  // configureTweakPane(slot, engine);
   createPayTable(symbols, payTable, config.ui.modalBody);
 });
 
