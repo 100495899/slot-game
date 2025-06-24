@@ -262,13 +262,7 @@ export function Slot(options) {
    * @readonly
    */
   this.subscribeAutoSpinButton = () => {
-    options.buttons.spinAuto.onclick = () => {
-      this.autoSpin = !this.autoSpin;
-      options.buttons.spinAuto.querySelector('b').innerText = `AUTO | ${this.autoSpin ? 'ON' : 'OFF'}`;
-      if (this.autoSpin) {
-        options.buttons.spinManual.click();
-      }
-    };
+    
   };
 
   /**
@@ -276,7 +270,7 @@ export function Slot(options) {
    * @readonly
    */
   this.subscribeMinusBetButton = () => {
-    options.buttons.minusBet.onclick = () => this.player.decBet();
+  
   };
 
   /**
@@ -284,7 +278,7 @@ export function Slot(options) {
    * @readonly
    */
   this.subscribePlusBetButton = () => {
-    options.buttons.plusBet.onclick = () => this.player.incBet();
+
   };
 
   /**
@@ -294,7 +288,6 @@ export function Slot(options) {
   this.subscribePlayerEvents = () => {
     this.player.onUpdate = (credits, bet) => {
       options.text.credits.textContent = `${credits}`;
-      options.text.bet.textContent = `${bet}`;
     };
     this.player.onWin = (amount) => {
       let ganancia = document.getElementById('win-amount');

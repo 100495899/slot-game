@@ -31,25 +31,16 @@ $id = $_GET['id'];
           <span>Tiradas:</span>
           <span id="credits" class="credit text-primary">0</span>
         </div>
-        <div class="bet d-none">
-          <span>Apuesta:</span>
-          <span id="bet" class="bet text-white">10</span>
-        </div>
+      
       </div>
 
       <div class="buttons-row mt-3">
-        <button id="minus-bet" class="bet-action-btn d-none">
-          <i class="fas fa-minus"></i>
-        </button>
 
         <button id="spin-manual" class="main-btn">
           <i class="fas fa-sync-alt"></i>
           <strong>PROBAR SUERTE</strong>
         </button>
 
-        <button id="plus-bet" class="bet-action-btn d-none">
-          <i class="fas fa-plus"></i>
-        </button>
       </div>
 
       <div class="extra-buttons mt-3">
@@ -57,9 +48,7 @@ $id = $_GET['id'];
           <i class="fas fa-table"></i> Tabla de Pagos
         </button>
 
-        <button id="spin-auto">
-          <i class="fas fa-play"></i> Auto | STOP
-        </button>
+
       </div>
     </div>
   </div>
