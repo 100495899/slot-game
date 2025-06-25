@@ -136,7 +136,8 @@ assetLoader.onLoadFinish((assets) => {
     const options = this.options;
     options.buttons.spinManual.onclick = () => {
       if (!this.player.hasEnoughCredits() || momento) return;
-
+      document.getElementById('spin-giro').classList.add('d-none');
+      document.getElementById('spin-loading').classList.remove('d-none');
       momento = true;
       momento_ganador(value).then((result) => {
         let premioObj = JSON.parse(result);
@@ -144,6 +145,8 @@ assetLoader.onLoadFinish((assets) => {
 
         setResultForNextSpin(premio);
         this.spin();
+        document.getElementById('spin-loading').classList.add('d-none');
+        document.getElementById('spin-giro').classList.remove('d-none');
         momento = false;
 
         if (premio !== null) {
@@ -157,7 +160,10 @@ assetLoader.onLoadFinish((assets) => {
           fetch('api_proxy.php?action=guardar_premio', {
             method: 'POST',
             body: formData
-          }).catch(error => console.error('Error guardando premio:', error));
+          }).catch(error => {console.error('Error guardando premio:', error);
+          document.getElementById('spin-loading').classList.add('d-none');
+          document.getElementById('spin-giro').classList.remove('d-none');
+        });
         }
 
         this.player.onWin(0);

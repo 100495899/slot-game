@@ -37,7 +37,8 @@ $id = $_GET['id'];
       <div class="buttons-row mt-3">
 
         <button id="spin-manual" class="main-btn">
-          <i class="fas fa-sync-alt"></i>
+          <i class="spinner-border spinner-border-sm d-none" id="spin-loading" role="status" aria-hidden="true"></i>
+          <i id="spin-giro" class="fas fa-sync-alt"></i>
           <strong>PROBAR SUERTE</strong>
         </button>
 
